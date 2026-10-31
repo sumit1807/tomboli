@@ -1,0 +1,85 @@
+.room-lobby {
+    margin-bottom: 24px;
+}
+
+.room-lobby h2 {
+    margin-top: 4px;
+}
+
+.room-form {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.room-form label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.room-form input,
+.room-form select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #dedede;
+    border-radius: 10px;
+    font: inherit;
+    background: white;
+    color: #222;
+}
+
+.room-divider {
+    margin: 24px 0 12px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #777;
+}
+
+.room-status {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 10px;
+    border-radius: 20px;
+    background: #eef5e9;
+}
+
+.room-player-list {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.room-player {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #f7f7f7;
+}
+
+.room-player span:last-child {
+    color: #666;
+    font-size: 13px;
+}
+
+.room-number-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 20px;
+}
+
+.room-number {
+    display: inline-flex;
+    width: 38px;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f1eadb;
+    font-weight: 700;
+}
