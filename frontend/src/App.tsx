@@ -255,6 +255,7 @@ function App() {
           onSession={session => { setRemoteSession(session); setRemoteSelectedNumbers([]); void roomApi.state(session.roomCode).then(setRemoteRoom) }}
           onLeave={() => { setRemoteSession(null); setRemoteRoom(null); setRemoteSelectedNumbers([]) }}
           onBusy={setRemoteBusy}
+          onRoom={setRemoteRoom}
           onError={setError}
           onToggleNumber={number => setRemoteSelectedNumbers(current => current.includes(number) ? current.filter(n => n !== number) : [...current, number].sort((a, b) => a - b))}
         />
@@ -391,6 +392,7 @@ function RemoteRoomPanel({
   onSession,
   onLeave,
   onBusy,
+  onRoom,
   onError,
   onToggleNumber,
 }: {
@@ -401,6 +403,7 @@ function RemoteRoomPanel({
   onSession: (session: RoomSession) => void
   onLeave: () => void
   onBusy: (value: boolean) => void
+  onRoom: (room: RemoteRoomState | null) => void
   onError: (value: string) => void
   onToggleNumber: (number: number) => void
 }) {
@@ -429,7 +432,7 @@ function RemoteRoomPanel({
   async function hostAction(action: () => Promise<RemoteRoomState>) {
     if (!session) return
     onBusy(true); onError('')
-    try { setRemoteRoom(await action()) }
+    try { onRoom(await action()) }
     catch (e) { onError(e instanceof Error ? e.message : 'Remote room action failed.') }
     finally { onBusy(false) }
   }
@@ -490,7 +493,7 @@ function RemoteRoomPanel({
         <div className="remote-draw-value current"><span>Current draw</span><strong>{current ?? '—'}</strong></div>
         <div className="remote-draw-value"><span>Last draw</span><strong>{last ?? '—'}</strong></div>
         <button className="history-bubble" type="button" onClick={() => setShowHistory(true)} title="View draw history">↕</button>
-        {isHost && <div className="remote-host-controls"><button className="button button-primary" disabled={busy || room?.status !== 'RUNNING'} onClick={() => void hostAction(() => roomApi.next(session.roomCode, session.token))}>Call next number →</button><button className="button button-secondary" disabled={busy || !['RUNNING', 'PAUSED'].includes(room?.status ?? '')} onClick={() => void hostAction(() => roomApi.pause(session.roomCode, session.token))}>{room?.status === 'PAUSED' ? 'Resume' : 'Pause'}</button><button className="button button-quiet" disabled={busy} onClick={() => void hostAction(() => roomApi.reset(session.roomCode, session.token))}>Reset</button></div>}
+        {isHost && <div className="remote-host-controls"><button className="button button-primary" disabled={busy || room?.status !== 'RUNNING'} onClick={() => void hostAction(() => roomApi.next(session.roomCode, session.token))}>Call next number →</button><button className="button button-secondary" disabled={busy || !['RUNNING','PAUSED'].includes(room?.status ?? '')} onClick={() => void hostAction(() => roomApi.pause(session.roomCode, session.token))}>{room?.status === 'PAUSED' ? 'Resume' : 'Pause'}</button><button className="button button-quiet" disabled={busy} onClick={() => void hostAction(() => roomApi.reset(session.roomCode, session.token))}>Reset</button></div>}
       </section>
 
       <section className="panel remote-ticket-panel">
@@ -515,7 +518,7 @@ function WinnersPanel({ winners }: { winners: Record<string, PrizeWinner> }) {
   return (
     <section className="panel winners-panel">
       <div className="section-heading"><div><p className="eyebrow">WINNERS</p><h2>Prize winners</h2></div><span className="trophy">✦</span></div>
-      <div className="winner">
+      <div className="winner-strip">
         {prizeList.map(([number, name]) => {
           const winner = winners[name]
           return <div className={`winner-card ${winner ? 'has-winner' : ''}`} key={name}><span className="prize-index">{winner ? '✓' : number}</span><div><strong>{name}</strong><small>{winner ? `${winner.playerName} · #${winner.ticketNumber}` : 'Waiting for winner'}</small></div></div>
