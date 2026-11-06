@@ -212,7 +212,7 @@ function App() {
           </button>
         </nav>
         <div className="topbar-right">
-          <span className="free-pill"><span className="status-dot" /> FREE SOCIAL GAME</span>
+          <span className="free-pill"><span className="status-dot" />ENJOY FREE SOCIAL GAME</span>
           <span className="profile-avatar">G</span>
         </div>
       </header>
@@ -368,7 +368,7 @@ function App() {
         </div>
       )}
 
-      <footer className="footer"><span>© Tomboli Online · Prototype v0.2</span><span>Made for good times <span className="heart">♥</span></span></footer>
+      <footer className="footer"><span>© Tomboli Online Game. @sumitjain</span><span>Made for good times <span className="heart">♥</span></span></footer>
 
       {showHistory && game && (
         <div className="modal-backdrop" role="presentation" onClick={() => setShowHistory(false)}>
@@ -493,7 +493,7 @@ function RemoteRoomPanel({
         <div className="remote-draw-value current"><span>Current draw</span><strong>{current ?? '—'}</strong></div>
         <div className="remote-draw-value"><span>Last draw</span><strong>{last ?? '—'}</strong></div>
         <button className="history-bubble" type="button" onClick={() => setShowHistory(true)} title="View draw history">↕</button>
-        {isHost && <div className="remote-host-controls"><button className="button button-primary" disabled={busy || room?.status !== 'RUNNING'} onClick={() => void hostAction(() => roomApi.next(session.roomCode, session.token))}>Call next number →</button><button className="button button-secondary" disabled={busy || !['RUNNING','PAUSED'].includes(room?.status ?? '')} onClick={() => void hostAction(() => roomApi.pause(session.roomCode, session.token))}>{room?.status === 'PAUSED' ? 'Resume' : 'Pause'}</button><button className="button button-quiet" disabled={busy} onClick={() => void hostAction(() => roomApi.reset(session.roomCode, session.token))}>Reset</button></div>}
+        {isHost && <div className="remote-host-controls"><button className="button button-primary" disabled={busy || room?.status !== 'RUNNING'} onClick={() => void hostAction(() => roomApi.next(session.roomCode, session.token))}>Call next number →</button><button className="button button-secondary" disabled={busy || !['RUNNING', 'PAUSED'].includes(room?.status ?? '')} onClick={() => void hostAction(() => roomApi.pause(session.roomCode, session.token))}>{room?.status === 'PAUSED' ? 'Resume' : 'Pause'}</button><button className="button button-quiet" disabled={busy} onClick={() => void hostAction(() => roomApi.reset(session.roomCode, session.token))}>Reset</button></div>}
       </section>
 
       <section className="panel remote-ticket-panel">
@@ -518,7 +518,7 @@ function WinnersPanel({ winners }: { winners: Record<string, PrizeWinner> }) {
   return (
     <section className="panel winners-panel">
       <div className="section-heading"><div><p className="eyebrow">WINNERS</p><h2>Prize winners</h2></div><span className="trophy">✦</span></div>
-      <div className="winner-strip">
+      <div className="winner">
         {prizeList.map(([number, name]) => {
           const winner = winners[name]
           return <div className={`winner-card ${winner ? 'has-winner' : ''}`} key={name}><span className="prize-index">{winner ? '✓' : number}</span><div><strong>{name}</strong><small>{winner ? `${winner.playerName} · #${winner.ticketNumber}` : 'Waiting for winner'}</small></div></div>
